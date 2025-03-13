@@ -1,22 +1,10 @@
-<?php
+# Native Library for PHPRedis
 
-use NativeSupport\PHPRedis\Config\RedisLabConfig;
-use NativeSupport\PHPRedis\Config\RedisSentinelConfig;
-use NativeSupport\PHPRedis\Config\RedisStandaloneConfig;
-use NativeSupport\PHPRedis\Connector\RedisLabConnector;
-use NativeSupport\PHPRedis\Connector\RedisSentinelConnector;
-use NativeSupport\PHPRedis\Connector\RedisStandaloneConnector;
-use NativeSupport\PHPRedis\RedisClient;
+## Documentation
 
-/*
-|--------------------------------------------------------------------------
-| Register The Auto Loader
-|--------------------------------------------------------------------------
-|
-*/
+Here is an implementation example:
 
-require __DIR__.'/vendor/autoload.php';
-
+```php
 // Redis Sentinel Implementation
 $config = new RedisSentinelConfig(
     [
@@ -71,3 +59,25 @@ try {
 } catch (Exception $e) {
     dump($e->getMessage());
 }
+```
+
+## Check Out
+You can run the `docker-compose.yml` with
+
+```bash
+docker compose up -d
+```
+
+It will spin up 4 containers
+- master
+- slave-1
+- slave-2
+- sentinel-1
+
+By this, you can test out the library and confirm.
+
+## Contributor
+- A S Md Ferdousul Haque
+
+## License
+- GNU
