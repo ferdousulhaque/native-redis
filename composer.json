@@ -1,0 +1,23 @@
+{
+    "name": "native-support/php-redis",
+    "description": "This package is for the Native PHPRedis Implementation that supports Redis-Sentinel, RedisLab and RediSearch features.",
+    "type": "library",
+    "license": "GNU",
+    "autoload": {
+        "psr-4": {
+            "NativeSupport\\PHPRedis\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^7.2.3"
+    },
+    "authors": [
+        {
+            "name": "A S Md Ferdousul Haque",
+            "email": "ferdousul.haque@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-redis": "*"
+    }
+}

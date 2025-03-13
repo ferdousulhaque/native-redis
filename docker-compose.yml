@@ -1,0 +1,52 @@
+services:
+    redis-master:
+        image: redis:latest
+        container_name: redis-master
+        command: ["redis-server", "/etc/redis/redis.conf"]
+        volumes:
+            - ./conf/redis/redis-master.conf:/etc/redis/redis.conf:rw
+        networks:
+            - redis-cluster
+
+    redis-slave-1:
+        image: redis:latest
+        container_name: redis-slave-1
+        command: ["redis-server", "/etc/redis/redis.conf", "--slaveof", "redis-master", "6379"]
+        depends_on:
+            - redis-master
+        volumes:
+            - ./conf/redis/redis-slave.conf:/etc/redis/redis.conf:rw
+        networks:
+            - redis-cluster
+
+    redis-slave-2:
+        image: redis:latest
+        container_name: redis-slave-2
+        command: ["redis-server", "/etc/redis/redis.conf", "--slaveof", "redis-master", "6379"]
+        depends_on:
+            - redis-master
+        volumes:
+            - ./conf/redis/redis-slave.conf:/etc/redis/redis.conf:rw
+        networks:
+            - redis-cluster
+
+    sentinel-1:
+        image: redis:latest
+        container_name: sentinel-1
+        command: ["redis-server", "/etc/redis/sentinel.conf", "--sentinel"]
+        ports:
+            - "26379:26379"
+        depends_on:
+            - redis-master
+            - redis-slave-1
+            - redis-slave-2
+        volumes:
+            - ./conf/redis/sentinel.conf:/etc/redis/sentinel.conf:rw
+        extra_hosts:
+            - "redis-master:host-gateway"
+        networks:
+            - redis-cluster
+
+networks:
+    redis-cluster:
+        driver: bridge
