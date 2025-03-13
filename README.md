@@ -76,6 +76,30 @@ It will spin up 4 containers
 
 By this, you can test out the library and confirm.
 
+## How to install
+
+Add this to your `composer.json` file
+
+### package
+
+```json
+"require": {
+    ...,
+  "native-support/php-redis": "^1.0.0",
+},
+```
+
+### vcs
+```json
+
+"repositories":[
+        {
+            "type": "vcs",
+            "url": "https://github.com/ferdousulhaque/native-redis.git"
+        }
+    ],
+```
+
 ## Contributor
 - A S Md Ferdousul Haque
 
