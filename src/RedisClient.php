@@ -167,4 +167,49 @@ class RedisClient
             throw new \Exception(sprintf(ErrorMessages::HGETALL_FAILED->value, $key) . $e->getMessage());
         }
     }
+
+    public function dbsize(): int
+    {
+        try {
+            return $this->redis->dbSize();
+        } catch (\Exception $e) {
+            throw new \Exception(ErrorMessages::DBSIZE_FAILED->value . $e->getMessage());
+        }
+    }
+
+    public function lpush(string $key, mixed ...$values): int
+    {
+        try {
+            return $this->redis->lPush($key, ...$values);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::PUSH_FAILED->value, $key) . $e->getMessage());
+        }
+    }
+
+    public function lpop(string $key): mixed
+    {
+        try {
+            return $this->redis->lPop($key);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::POP_FAILED->value, $key) . $e->getMessage());
+        }
+    }
+
+    public function rpush(string $key, mixed ...$values): int
+    {
+        try {
+            return $this->redis->rPush($key, ...$values);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::PUSH_FAILED->value, $key) . $e->getMessage());
+        }
+    }
+
+    public function rpop(string $key): mixed
+    {
+        try {
+            return $this->redis->rPop($key);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::POP_FAILED->value, $key) . $e->getMessage());
+        }
+    }
 }

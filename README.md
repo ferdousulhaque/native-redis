@@ -1,4 +1,18 @@
 # Native Library for PHPRedis
+Supports the following commands for the RedisClient
+
+- set
+- get
+- hset
+- hmget
+- hmgetall
+- pipeline
+- search
+- dbsize
+- lpush
+- lpop
+- rpush
+- rpop
 
 ## Documentation
 
@@ -8,7 +22,7 @@ Here is an implementation example:
 // Redis Sentinel Implementation
 $config = new RedisSentinelConfig(
     [
-        '127.0.0.1:26379'
+        'sentinel-1:26379'
     ], 200, 'mymaster'
 );
 $connector = new RedisSentinelConnector($config);
@@ -24,7 +38,7 @@ try {
 
 // RediSearch Implementation
 $config = new RedisStandaloneConfig(
-    '127.0.0.1',
+    'redis-master',
     6379,
     5,
     ""
@@ -33,11 +47,30 @@ $connector = new RedisStandaloneConnector($config);
 $index = "abs:idx";
 try {
     $client = new RedisClient($connector);
-    $client->search(
+    $client->pipeline(function ($pipe) {
+        $pipe->set('key1', 'value1');
+        $pipe->set('key2', 'value2');
+    });
+    dump($client->get('key2'));
+    $result = $client->search(
         $index,
         'FT.',
         []
     );
+    dump($result);
+    // Hash Example
+    $client->hset('user:1001', 'name', 'Alice');
+    $client->hset('user:1001', 'age', '30');
+    echo json_encode($client->hmget('user:1001', ['name', 'age']));
+    echo json_encode($client->hgetall('user:1001'));
+    
+    // List Example
+    $client->lpush('tasks', 'task1', 'task2', 'task3');
+    echo $client->lpop('tasks');
+    $client->rpush('tasks', 'task4', 'task5');
+    echo $client->rpop('tasks');
+    
+    echo "DB Size: " . $client->dbsize();
 } catch (Exception $e) {
     dump($e->getMessage());
 }
@@ -53,9 +86,11 @@ $connector = new RedisLabConnector($config);
 try {
     $key = "testing";
     $client = new RedisClient($connector);
-    $client->set($key, 200);
-    $client->incr($key);
-    dump($client->get($key));
+    $client->search(
+        $index,
+        'FT.',
+        []
+    );
 } catch (Exception $e) {
     dump($e->getMessage());
 }

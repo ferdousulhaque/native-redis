@@ -14,4 +14,7 @@ enum ErrorMessages: string
     case HMGET_FAILED = "Failed to get hash fields from '%s': ";
     case HSET_FAILED = "Failed to set hash field in '%s': ";
     case HGETALL_FAILED = "Failed to get all fields from hash '%s': ";
+    case DBSIZE_FAILED = "Failed to get database size: ";
+    case PUSH_FAILED = "Failed to push to list '%s': ";
+    case POP_FAILED = "Failed to pop from list '%s': ";
 }
