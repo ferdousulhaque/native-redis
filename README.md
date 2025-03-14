@@ -1,5 +1,5 @@
 # Native Library for PHPRedis
-Supports the following commands for the RedisClient
+Supports the following commands for the RedisClient. If you are moving from PRedis to PHPRedis, this package will help you to move in the shortest possible time.
 
 - set
 - get
