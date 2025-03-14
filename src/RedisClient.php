@@ -3,7 +3,7 @@
 namespace NativeSupport\PHPRedis;
 
 use Exception;
-use NativeSupport\PHPRedis\Enum\ErrorMessages;
+use NativeSupport\PHPRedis\ErrorMessages;
 use NativeSupport\PHPRedis\Connector\Contract;
 
 class RedisClient
@@ -106,10 +106,10 @@ class RedisClient
      * @param string $index
      * @param string $query
      * @param array $options
-     * @return array
+     * @return array|bool
      * @throws Exception
      */
-    public function search(string $index, string $query, array $options = []): array
+    public function search(string $index, string $query, array $options = []): array|bool
     {
         try {
             $args = [$index, $query];
@@ -138,6 +138,33 @@ class RedisClient
             return $pipeline->exec();
         } catch (Exception $e) {
             throw new Exception(ErrorMessages::PIPELINE_FAILED->value . $e->getMessage());
+        }
+    }
+
+    public function hset(string $key, string $field, mixed $value): bool
+    {
+        try {
+            return $this->redis->hSet($key, $field, $value);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::HSET_FAILED->value, $key) . $e->getMessage());
+        }
+    }
+
+    public function hmget(string $key, array $fields): array
+    {
+        try {
+            return $this->redis->hMGet($key, $fields);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::HMGET_FAILED->value, $key) . $e->getMessage());
+        }
+    }
+
+    public function hgetall(string $key): array
+    {
+        try {
+            return $this->redis->hGetAll($key);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(ErrorMessages::HGETALL_FAILED->value, $key) . $e->getMessage());
         }
     }
 }

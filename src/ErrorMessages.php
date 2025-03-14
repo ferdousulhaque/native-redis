@@ -1,5 +1,5 @@
 <?php
-namespace NativeSupport\PHPRedis\Enum;
+namespace NativeSupport\PHPRedis;
 
 enum ErrorMessages: string
 {
@@ -11,4 +11,7 @@ enum ErrorMessages: string
     case DEL_FAILED = "Failed to delete keys: %s - ";
     case SEARCH_FAILED = "Redisearch failed for index '%s': ";
     case PIPELINE_FAILED = "Pipeline execution failed: ";
+    case HMGET_FAILED = "Failed to get hash fields from '%s': ";
+    case HSET_FAILED = "Failed to set hash field in '%s': ";
+    case HGETALL_FAILED = "Failed to get all fields from hash '%s': ";
 }

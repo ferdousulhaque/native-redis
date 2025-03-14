@@ -20,7 +20,7 @@ require __DIR__.'/vendor/autoload.php';
 // Redis Sentinel Implementation
 $config = new RedisSentinelConfig(
     [
-        '127.0.0.1:26379'
+        'sentinel-1:26379'
     ], 200, 'mymaster'
 );
 $connector = new RedisSentinelConnector($config);
@@ -36,7 +36,7 @@ try {
 
 // RediSearch Implementation
 $config = new RedisStandaloneConfig(
-    '127.0.0.1',
+    'redis-master',
     6379,
     5,
     ""
@@ -45,11 +45,16 @@ $connector = new RedisStandaloneConnector($config);
 $index = "abs:idx";
 try {
     $client = new RedisClient($connector);
-    $client->search(
+    $client->pipeline(function ($pipe) {
+        $pipe->set('key1', 'value1');
+        $pipe->set('key2', 'value2');
+    });
+    $result = $client->search(
         $index,
         'FT.',
         []
     );
+    dump($result);
 } catch (Exception $e) {
     dump($e->getMessage());
 }
