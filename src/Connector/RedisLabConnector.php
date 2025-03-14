@@ -3,7 +3,7 @@
 namespace NativeSupport\PHPRedis\Connector;
 
 use NativeSupport\PHPRedis\Config\RedisLabConfig;
-use NativeSupport\PHPRedis\Enum\ErrorMessages;
+use NativeSupport\PHPRedis\ErrorMessages;
 use NativeSupport\PHPRedis\Connector\Contract;
 
 class RedisLabConnector implements Contract
