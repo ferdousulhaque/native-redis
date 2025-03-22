@@ -61,7 +61,7 @@ try {
 
 // RedisLab Implementation
 $config = new RedisLabConfig(
-    '127.0.0.1',
+    'redis-master',
     6379,
     5,
     ""
